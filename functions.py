@@ -90,3 +90,4 @@ def Vmoy_for_P(N,V):
         Vmoy.append((Vmoy[-1]*(i+1)+Veff([atome[j].x[-1] for j in range(N)],V))/(i+2))
     return Vmoy[-1]
 
+#test coucou
