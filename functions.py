@@ -21,7 +21,7 @@ e=a/100
 w0 = np.sqrt((8*V0/(a**2*m)))
 P=1
 T=2000
-pas=300000
+pas=1000000
 wP=P*kb*T/hb
 dt=1/1000*2*np.pi/w0
 dt=10**(-17)
@@ -70,10 +70,23 @@ def main_RPMD(etape,N,V,Vprime):  #integration of the motion equation,
         atome[i].x.append(pos)
         atome[i].v.append(vit)
 
-def simulation_RPMD(N,V,Vprime):
+def simulation_RPMD(N,V,Vprime): #main function which computes the positions of the P particles in a given distribution of potential
     init(N)
     for i in range(pas):
         if i%100000==0:
             print(i)
         main_RPMD(i,N,V,Vprime)
+
+
+def Veff(B,V):
+    x=0
+    for i in B:
+        x+=V(i)/kb/T
+    return x/len(B)
+
+def Vmoy_for_P(N,V):
+    Vmoy=[0]
+    for i in range(pas):
+        Vmoy.append((Vmoy[-1]*(i+1)+Veff([atome[j].x[-1] for j in range(N)],V))/(i+2))
+    return Vmoy[-1]
 
