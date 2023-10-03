@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 class Atome:
 
     def __init__(self):
-            self.x = [a,a,a]
+            self.x = [0,0,0]
             self.v = [0,0,0]
 
 
@@ -13,19 +13,18 @@ class Atome:
 m=1.6726*10**(-27)
 ev=1.6*10**(-19)
 a=0.3*10**(-10)
-V0=3*ev
-kb=6.022*10**(-23)
+V0=4.8e-20
+kb=1.38*10**(-23)
 hb=6.626*10**(-34)/2
 hb/=np.pi
 e=a/100
 w0 = np.sqrt((8*V0/(a**2*m)))
 P=1
 T=2000
-pas=10000000
+pas=300000
 wP=P*kb*T/hb
-dt=1/1000*2*np.pi/w0
 dt=10**(-17)
-gamma=1/(1000*dt)
+gamma=10e15
 
 i=0
 K=P**2*m*kb**2*T**2/hb**2/100
@@ -37,11 +36,12 @@ def Vp(x):
 def Vpprime (x) :
     V_prime = (4*V0/a**2) * ((x**3/a**2) - x)
     return (V_prime)
+
 def Vsin(x):
-    return V0**2*np.sin(2*np.pi*x/a)**2
+    return V0*np.sin(2*np.pi*x/a)**2
 
 def Vsinprime(x):
-    return 4*np.pi/a*V0**2*np.sin(2*np.pi*x/a)*np.cos(2*np.pi*x/a)
+    return 4*V0*np.pi/a*np.sin(2*np.pi*x/a)*np.cos(2*np.pi*x/a)
 
 
 
@@ -58,8 +58,21 @@ def voisins(i,N): # gives the neighbours of a givin atom
         return (N-1,1)
     return i-1,i+1
 
+def main_DM(Vprime):
+    F = Vprime(atome[0].x[-1]) - m*gamma*atome[0].v[-1] + np.sqrt ((2*m*gamma*kb*T)/dt)*rd.gauss(0,1)
+    pos = 2*atome[0].x[-1] - atome[0].x[-2]+dt**2 * F/m
+    vit = (3*atome[0].x[-1]-4*atome[0].x[-2]+atome[0].x[-3])/(2*dt)
+    atome[0].x.append(pos)
+    atome[0].v.append(vit)
+    
+def simulation_DM(Vprime): #main function which computes the position and the speed of one particle in a given distribution of potential
+    init(1)
+    for i in range(pas):
+        if i%100000==0:
+            print(i)
+        main_DM(Vprime)
 
-def main_RPMD(etape,N,V,Vprime):  #integration of the motion equation, 
+def main_RPMD(etape,N,Vprime):  #integration of the motion equation, 
     for i in range(N):
         F = - 1/N*Vprime(atome[i].x[-1]) - m*gamma*atome[i].v[-1] + np.sqrt ((2*m*gamma*kb*T)/dt)*rd.gauss(0,1)
         pp,pn=voisins(i,N)
@@ -90,4 +103,4 @@ def Vmoy_for_P(N,V):
         Vmoy.append((Vmoy[-1]*(i+1)+Veff([atome[j].x[-1] for j in range(N)],V))/(i+2))
     return Vmoy[-1]
 
-#test coucou
+
