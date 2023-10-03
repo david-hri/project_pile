@@ -3,7 +3,7 @@ import random as rd
 import numpy as np
 import matplotlib.pyplot as plt
 
-simulation_DM(Vsinprime)  
+simulation_RPMD(1,Vsin,Vsinprime)  
 
 def tracé_potentiel(Xp):
     V=[]
@@ -12,7 +12,7 @@ def tracé_potentiel(Xp):
     return V
 
 X1 = [i*dt for i in range(len(atome[0].x))]
-Xp = np.arange(-2*a,2*a,4*a/pas)
+Xp = np.arange(-4*a,4*a,8*a/pas)
 V = tracé_potentiel(Xp)
    
 fig, ax1 = plt.subplots()

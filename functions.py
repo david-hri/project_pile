@@ -58,19 +58,6 @@ def voisins(i,N): # gives the neighbours of a givin atom
         return (N-1,1)
     return i-1,i+1
 
-def main_DM(Vprime):
-    F = Vprime(atome[0].x[-1]) - m*gamma*atome[0].v[-1] + np.sqrt ((2*m*gamma*kb*T)/dt)*rd.gauss(0,1)
-    pos = 2*atome[0].x[-1] - atome[0].x[-2]+dt**2 * F/m
-    vit = (3*atome[0].x[-1]-4*atome[0].x[-2]+atome[0].x[-3])/(2*dt)
-    atome[0].x.append(pos)
-    atome[0].v.append(vit)
-    
-def simulation_DM(Vprime): #main function which computes the position and the speed of one particle in a given distribution of potential
-    init(1)
-    for i in range(pas):
-        if i%100000==0:
-            print(i)
-        main_DM(Vprime)
 
 def main_RPMD(etape,N,Vprime):  #integration of the motion equation, 
     for i in range(N):
@@ -88,7 +75,7 @@ def simulation_RPMD(N,V,Vprime): #main function which computes the positions of 
     for i in range(pas):
         if i%100000==0:
             print(i)
-        main_RPMD(i,N,V,Vprime)
+        main_RPMD(i,N,Vprime)
 
 
 def Veff(B,V):
