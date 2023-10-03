@@ -1,6 +1,7 @@
 import random as rd
 import numpy as np
 import matplotlib.pyplot as plt
+from take_variables import *
 
 class Atome:
 
@@ -8,8 +9,20 @@ class Atome:
             self.x = [a,a,a]
             self.v = [0,0,0]
 
-
-
+P,T,pas=0,0,0
+with open('assets/data/variables.txt', 'r') as file:
+        pattern = r'(\w+)=(\d+)'
+        # Lire le contenu du fichier ligne par ligne
+        for line in file:
+            # Utiliser la regex pour chercher des correspondances dans chaque ligne
+            matches = re.findall(pattern, line)
+            # Si des correspondances sont trouvées, les assigner comme variables globales
+            if matches:
+                for match in matches:
+                    variable, valeur = match
+                    print(variable,valeur)
+                    # Utilisation de la fonction globals() pour assigner comme variable globale
+                    globals()[variable] = int(valeur)
 m=1.6726*10**(-27)
 ev=1.6*10**(-19)
 a=0.3*10**(-10)
@@ -19,14 +32,11 @@ hb=6.626*10**(-34)/2
 hb/=np.pi
 e=a/100
 w0 = np.sqrt((8*V0/(a**2*m)))
-P=10
-T=2000
-pas=100000
+
 wP=P*kb*T/hb
 dt=1/1000*2*np.pi/w0
 dt=10**(-17)
 gamma=1/(1000*dt)
-
 i=0
 K=P**2*m*kb**2*T**2/hb**2/100
 atome={}
@@ -90,4 +100,4 @@ def Vmoy_for_P(N,V):
         Vmoy.append((Vmoy[-1]*(i+1)+Veff([atome[j].x[-1] for j in range(N)],V))/(i+2))
     return Vmoy[-1]
 
-#test coucou
+

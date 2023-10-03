@@ -43,8 +43,7 @@ def nombre_plus_proche(L,cible=0.95):
 
     return i
 
-X=P_opt(12)
-print(X)
+X=P_opt(40 )
 print(nombre_plus_proche(X,0.98)+1)
 plt.plot([i+1 for i in range(len(X))],X,label="T="+str(T))
 plt.legend()
