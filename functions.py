@@ -10,7 +10,7 @@ class Atome:
 
 
 
-m=1.6726*10**(-27)
+mp=1.6726*10**(-27)
 ev=1.6*10**(-19)
 a=0.3*10**(-10)
 V0=4.8e-20
@@ -18,16 +18,16 @@ kb=1.38*10**(-23)
 hb=6.626*10**(-34)/2
 hb/=np.pi
 e=a/100
-w0 = np.sqrt((8*V0/(a**2*m)))
-P=10
+w0 = np.sqrt((8*V0/(a**2*mp)))
+P=1
 T=2000
-pas=100000
+pas=5000000
 wP=P*kb*T/hb
-dt=10**(-17)
-gamma=10e15
+dt=10e-17
+gamma=1e14
 
 i=0
-K=P**2*m*kb**2*T**2/hb**2/100
+K=P**2*mp*kb**2*T**2/hb**2/100
 atome={}
 
 def Vp(x):
@@ -61,21 +61,28 @@ def voisins(i,N): # gives the neighbours of a givin atom
 
 def main_RPMD(etape,N,Vprime):  #integration of the motion equation, 
     for i in range(N):
-        F = - 1/N*Vprime(atome[i].x[-1]) - m*gamma*atome[i].v[-1] + np.sqrt ((2*m*gamma*kb*T)/dt)*rd.gauss(0,1)
+        F = - 1/N*Vprime(atome[i].x[-1]) - mp*gamma*atome[i].v[-1] + np.sqrt ((2*mp*gamma*kb*T)/dt)*rd.gauss(0,1)
         pp,pn=voisins(i,N)
         Fk=-K*(2*atome[i].x[2+etape]-atome[pp].x[2+etape]-atome[pn].x[2+etape])
         F+=Fk
-        pos = 2*atome[i].x[-1] - atome[i].x[-2]+dt**2 * F/m
+        pos = 2*atome[i].x[-1] - atome[i].x[-2]+dt**2 * F/mp
         vit = (3*atome[i].x[-1]-4*atome[i].x[-2]+atome[i].x[-3])/(2*dt)
         atome[i].x.append(pos)
         atome[i].v.append(vit)
 
-def simulation_RPMD(N,V,Vprime): #main function which computes the positions of the P particles in a given distribution of potential
+def simulation_RPMD(N,Vprime): #main function which computes the positions of the P particles in a given distribution of potential
     init(N)
     for i in range(pas):
-        if i%100000==0:
+        if i%5000000==0:
             print(i)
         main_RPMD(i,N,Vprime)
+
+def E_c () : # calcul de l'énergie cinétique moyennne avec la méthode des rectangles
+    V = 0
+    for i in range (len(atome[0].v)) :
+        V += atome[0].v[i]**2                                    
+    E_c = mp/(2*pas) *V
+    return 2*E_c/kb         # correspond à la température du système
 
 
 def Veff(B,V):

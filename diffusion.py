@@ -3,6 +3,7 @@ import random as rd
 import numpy as np
 import matplotlib.pyplot as plt
 import scipy
+
 V=Vsin
 Vprime=Vsinprime
 P=1

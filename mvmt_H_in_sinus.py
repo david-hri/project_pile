@@ -3,7 +3,7 @@ import random as rd
 import numpy as np
 import matplotlib.pyplot as plt
 
-simulation_RPMD(1,Vsin,Vsinprime)  
+simulation_RPMD(1,Vsinprime)  
 
 def tracé_potentiel(Xp):
     V=[]
