@@ -7,4 +7,3 @@ print(atome[0].x[-1])
 plt.show()
 
 
-
