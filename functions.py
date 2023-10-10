@@ -1,6 +1,7 @@
 import random as rd
 import numpy as np
 import matplotlib.pyplot as plt
+import re
 
 class Atome:
 
@@ -19,13 +20,12 @@ with open('assets/data/variables.txt', 'r') as file:
             if matches:
                 for match in matches:
                     variable, valeur = match
-                    print(variable,valeur)
                     # Utilisation de la fonction globals() pour assigner comme variable globale
                     globals()[variable] = int(valeur)
 m=1.6726*10**(-27)
 ev=1.6*10**(-19)
 a=0.3*10**(-10)
-V0=3*ev
+V0=0.3*ev
 kb=1.380649 *10**(-23)
 hb=6.626*10**(-34)/2
 hb/=np.pi
