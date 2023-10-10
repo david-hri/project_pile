@@ -12,12 +12,12 @@ def tracé_potentiel(Xp):
     return V
 
 X1 = [i*dt for i in range(len(atome[0].x))]
-Xp = np.arange(-4*a,4*a,8*a/pas)
+Xp = np.arange(-10*a,10*a,20*a/pas)
 V = tracé_potentiel(Xp)
    
 fig, ax1 = plt.subplots()
     
-ax1.plot(atome[0].x,X1)
+ax1.plot(atome[0].x,X1,'+')
 ax1.set_xlabel("Position (m)")
 ax1.set_ylabel("Temps (s)")
 #fig.title("Position du proton dans un potentiel sinusoidale en fonction du temps")

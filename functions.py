@@ -9,7 +9,7 @@ class Atome:
             self.x = [0,0,0]
             self.v = [0,0,0]
 
-P,T,pas,gamma=0,0,0,0
+P,T,v_pas,e_pas,v_gamma,e_gamma=0,0,0,0,0,0
 with open('assets/data/variables.txt', 'r') as file:
         pattern = r'(\w+)=(\d+)'
         # Lire le contenu du fichier ligne par ligne
@@ -22,6 +22,12 @@ with open('assets/data/variables.txt', 'r') as file:
                     variable, valeur = match
                     # Utilisation de la fonction globals() pour assigner comme variable globale
                     globals()[variable] = int(valeur)
+
+pas = v_pas*10**e_pas
+pas = int(pas)           
+gamma=v_gamma*10**e_gamma
+
+
 mp=1.6726*10**(-27)
 ev=1.6*10**(-19)
 a=0.3*10**(-10)
@@ -30,11 +36,11 @@ kb=1.380649 *10**(-23)
 hb=6.626*10**(-34)/2
 hb/=np.pi
 e=a/100
-w0 = np.sqrt((8*V0/(a**2*mp)))
+w0 = np.sqrt((8*np.pi**2*V0/(a**2*mp)))
 
 wP=P*kb*T/hb
 dt=1/1000*2*np.pi/w0
-dt=10**(-17)
+dt=1e-16
 
 i=0
 K=P**2*mp*kb**2*T**2/hb**2/100

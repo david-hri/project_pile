@@ -22,11 +22,11 @@ def av_kinetic_energy (L_Ec):
 
 L_Ec = list_kinetic_energy(N)
 
-Av_Ec=int(av_kinetic_energy (L_Ec)*10e2)/10e2
+Av_Ec=int(av_kinetic_energy (L_Ec)*10)/10
     
 X1 = np.arange(N)
 
-plt.plot (X1,L_Ec,'b+',label = "Gamma=1e14 ; Potentiel=sinusoïdal ; Np=5e6 ; T={}K " .format(T))
+plt.plot (X1,L_Ec,'b+',label = "Gamma={}e{} ; Potentiel=sinusoïdal ; Np={}e{} ; T={}K " .format(v_gamma,e_gamma,v_pas,e_pas,T))
 plt.plot (X1,[Av_Ec for i in range (N) ],'r',label="Energie cinétique moyenne={}".format(Av_Ec))
 
 plt.xlabel("Répétition",fontsize=15)
