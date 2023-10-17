@@ -9,7 +9,7 @@ class Atome:
             self.x = [0,0,0]
             self.v = [0,0,0]
 
-P,T,v_pas,e_pas,v_gamma,e_gamma=0,0,0,0,0,0
+P,T,v_pas,e_pas,v_gamma,e_gamma,num_sim=0,0,0,0,0,0,0
 with open('assets/data/variables.txt', 'r') as file:
         pattern = r'(\w+)=(\d+)'
         # Lire le contenu du fichier ligne par ligne
@@ -83,13 +83,13 @@ def main_RPMD(etape,N,Vprime):  #integration of the motion equation,
         F+=Fk
         pos = 2*atome[i].x[-1] - atome[i].x[-2]+dt**2 * F/mp
         vit = (3*atome[i].x[-1]-4*atome[i].x[-2]+atome[i].x[-3])/(2*dt)
-        atome[i].x.append(pos)
-        atome[i].v.append(vit)
+        atome[i].x.append(round(pos,15))                                        # On arrondi de manière à ne garder que quelques chiffres significatif pour gagner du temps de calcul et de la mémoire
+        atome[i].v.append(round(vit,15))
 
 def simulation_RPMD(N,Vprime): #main function which computes the positions of the P particles in a given distribution of potential
     init(N)
     for i in range(pas):
-        if i%5000000==0:
+        if i%100000==0:
             print(i)
         main_RPMD(i,N,Vprime)
 

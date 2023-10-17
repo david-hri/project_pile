@@ -1,6 +1,7 @@
 T=2000
 P=1
 v_pas=1
-e_pas=7
+e_pas=6
 v_gamma=1
-e_gamma=13
+e_gamma=15
+num_sim=1
